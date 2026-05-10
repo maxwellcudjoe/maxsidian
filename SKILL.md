@@ -11,6 +11,21 @@ appends the solution back into the note, and reminds you to save it to the vault
 
 ## Installation
 
+### Step 1 — Create the vault folder in your repo (run once)
+
+**Windows (PowerShell):**
+```powershell
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/setup_vault.ps1 -OutFile setup_vault.ps1; .\setup_vault.ps1
+```
+
+**Mac / Linux:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/setup_vault.sh | bash
+```
+
+This creates the full `obsidian/` folder structure and downloads all templates directly into your current repo. You only need to run this once per project.
+
+### Step 2 — Activate the skill with Claude
 Tell Claude once at the start of any session:
 ```
 Install skill from https://github.com/maxwellcudjoe/maxsidian/tree/master/obsidian
@@ -20,6 +35,20 @@ Or reference the YAML directly:
 ```
 Load obsidian_superpower from https://github.com/maxwellcudjoe/maxsidian/blob/master/obsidian_skill.yaml
 ```
+
+### What the setup script creates
+```
+your-repo/
+└── obsidian/
+    ├── README.md
+    ├── Projects/Project_Template.md
+    ├── Snippets/Snippet_Template.md
+    ├── Bug_Fixes/Bug_Fix_Template.md
+    ├── Knowledge/README.md
+    ├── Prompts/Prompt_Template.md
+    └── Daily_Journal/Daily_Journal_Template.md
+```
+After setup, Claude saves notes into these folders. Obsidian Git auto-pushes updates to GitHub on a 30-minute schedule.
 
 ---
 
