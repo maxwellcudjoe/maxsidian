@@ -1,11 +1,58 @@
 name: obsidian_superpower
-version: "1.0.0"
+version: "2.0.0"
 author: maxwellcudjoe
 description: >
   Integrates Obsidian vaults into coding projects. Claude uses this skill to log bugs,
   generate reusable code snippets, document projects end-to-end, record daily progress
   journals, curate a prompt library, and build a searchable knowledge base —
   all synced to GitHub and queryable via Dataview.
+
+# ─────────────────────────────────────────
+# AUTO-INVOKE — RUNS BEFORE EVERY TASK
+# ─────────────────────────────────────────
+auto_invoke: true
+pre_task_required: true
+apply_to: "**"  # All file types, all projects
+
+pre_task_routine:
+  description: >
+    Before solving ANY task, Claude MUST execute these steps automatically.
+    No explicit invocation needed — this runs as a mandatory pre-task hook.
+  steps:
+    - step: 1
+      name: Classify Task
+      action: >
+        Identify which note type applies based on the request:
+        bug/error → Bug_Fixes | snippet/function → Snippets |
+        project/feature → Projects | progress/summary → Daily_Journal |
+        prompt/instruction → Prompts | concept/research → Knowledge
+    - step: 2
+      name: Generate Obsidian Note
+      action: >
+        Produce the complete filled Obsidian template BEFORE solving.
+        Include all frontmatter (title, date, language, status, tags)
+        and all section headers.
+    - step: 3
+      name: Solve the Task
+      action: Provide the full solution, fix, snippet, explanation, or summary.
+    - step: 4
+      name: Append to Note
+      action: >
+        Paste Claude's output into the correct field of the note:
+        Bug fix → "## 🤖 Claude Solution"
+        Snippet → "## 💻 Code" + "## 🔍 How It Works"
+        Project → "## 🤖 Claude Prompts Used"
+        Journal → "## 🤖 Claude Interactions"
+        Prompt  → "## 💬 Example Interaction"
+    - step: 5
+      name: Remind to Save
+      action: >
+        End EVERY response with:
+        "📁 Save this note to: obsidian/[FOLDER]/[NOTE_TITLE].md
+         🔄 Obsidian Git will auto-push to GitHub within 30 minutes."
+
+instruction_file: .github/copilot-instructions.md
+skill_reference: SKILL.md
 
 # ─────────────────────────────────────────
 # TRIGGERS
