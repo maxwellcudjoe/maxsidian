@@ -59,16 +59,16 @@ tags:
 
 ---
 
-## 🤖 Claude Solution
+## 🤖 AI Solution
 
-> Paste Claude's diagnosis and fix here. Include the prompt you used.
+> Paste the AI assistant's diagnosis and fix here. Include the prompt you used.
 
 **Prompt used:**
 ```
-<% tp.system.prompt("What did you ask Claude? (or 'N/A')") %>
+<% tp.system.prompt("What did you ask the AI? (or 'N/A')") %>
 ```
 
-**Claude's Response / Fix:**
+**AI Response / Fix:**
 
 <% tp.system.prompt("Paste Claude's solution summary (or 'Pending')") %>
 

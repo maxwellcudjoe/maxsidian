@@ -126,9 +126,9 @@ Open **Settings → Community Plugins** and install:
 
 ---
 
-## 🤖 Claude Integration — Skill-Powered Workflow
+## 🤖 AI Integration — Skill-Powered Workflow
 
-Claude acts as your **AI pair programmer, knowledge curator, and reasoning engine** inside this vault. The `obsidian_superpower` skill defines the exact 5-step workflow:
+Any AI assistant (GitHub Copilot, Claude, GPT-4, Gemini) acts as your **pair programmer, knowledge curator, and reasoning engine** inside this vault. The `obsidian_superpower` skill defines the exact 5-step workflow:
 
 ### The Workflow
 
@@ -156,7 +156,7 @@ Step 5 — Visualize & Query
   Dataview surfaces the note in live dashboards and tables
 ```
 
-### Starting a Claude Session with This Skill
+### Starting an AI Session with This Skill
 
 ```
 Load the obsidian_superpower skill from obsidian_skill.yaml.
@@ -173,8 +173,8 @@ Load the obsidian_superpower skill.
 Write my daily journal entry. Today I worked on: [SUMMARY]
 ```
 
-### Claude Field in Every Template
-Every template includes a **Claude Solution**, **Claude Prompts**, or **Claude Interactions** field. Paste Claude's exact response there — this creates a searchable, version-controlled history of every AI-assisted decision.
+### AI Field in Every Template
+Every template includes an **AI Solution**, **AI Prompts**, or **AI Interactions** field. Paste the AI's exact response there — this creates a searchable, version-controlled history of every AI-assisted decision.
 
 ---
 
@@ -301,7 +301,7 @@ Use consistent tags across all notes for powerful Dataview filtering:
 | `#journal` | Daily journal entries |
 | `#prompt` | Claude prompts |
 | `#knowledge` | Concept / research notes |
-| `#claude` | Claude-assisted content |
+| `#ai` | AI-assisted content |
 | `#resolved` | Closed bugs / completed tasks |
 | `#active` | In-progress work |
 | `#python` / `#js` / `#ts` | Language-specific |

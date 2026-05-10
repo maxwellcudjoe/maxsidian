@@ -58,17 +58,17 @@ tags:
 
 ---
 
-## 🤖 Claude Interactions
+## 🤖 AI Interactions
 
-> Log every significant Claude session. Capture the prompt, the output quality, and what you used it for.
+> Log every significant AI session. Capture the prompt, the output quality, and what you used it for.
 
 ### Interaction 1
 **Time:** <% tp.date.now("HH:mm") %>
-**Task:** <% tp.system.prompt("What were you asking Claude to help with?") %>
+**Task:** <% tp.system.prompt("What were you asking the AI to help with?") %>
 **Prompt summary:** 
 > 
 
-**Outcome / Quality:** <% tp.system.prompt("How useful was Claude's response? (Excellent | Good | OK | Poor)") %>
+**Outcome / Quality:** <% tp.system.prompt("How useful was the AI's response? (Excellent | Good | OK | Poor)") %>
 
 **Output used:** ☐ Directly  ☐ Modified  ☐ Discarded
 

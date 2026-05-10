@@ -1,11 +1,12 @@
 # obsidian_superpower — SKILL.md
 
 ## Overview
-This skill automatically integrates Obsidian vault note-taking into every Claude coding task.
-Before solving any problem, Claude produces a filled Obsidian note, solves the task,
+This skill automatically integrates Obsidian vault note-taking into every AI coding task.
+It works with **GitHub Copilot, Claude, GPT-4, Gemini, or any instruction-following AI assistant**.
+Before solving any problem, the AI produces a filled Obsidian note, solves the task,
 appends the solution back into the note, and reminds you to save it to the vault.
 
-**One install. Works across every coding project. Always on.**
+**One install. Works with any AI. Works across every coding project. Always on.**
 
 ---
 
@@ -35,7 +36,7 @@ No second step. No manual skill install command. Claude picks it up automaticall
 
 ## Trigger Keywords
 
-Claude will automatically invoke this skill when it detects any of:
+The AI assistant will automatically invoke this skill when it detects any of:
 
 | Trigger | Action |
 |---|---|
@@ -66,8 +67,8 @@ User sends any request
   Full solution: code, diagnosis, explanation, steps
        │
        ▼
-④ Append solution to note
-  Paste into the correct Claude field in the template
+④ Append AI output to note
+  Paste into the correct AI field in the template
        │
        ▼
 ⑤ Return the complete note + solution to user

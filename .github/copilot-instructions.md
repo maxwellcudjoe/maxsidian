@@ -1,13 +1,14 @@
-# Copilot Instructions — obsidian_superpower (Auto-Invoke)
+# obsidian_superpower — AI Instructions (Auto-Invoke)
 
-## MANDATORY: Load obsidian_superpower Before Every Task
+## MANDATORY: Run obsidian_superpower Before Every Task
 
 Before responding to **any** request in this repo — coding, debugging, documentation,
-planning, or any other task — you MUST silently execute the following pre-task routine:
+planning, or any other task — you MUST silently execute the following pre-task routine.
+This applies to all AI assistants (GitHub Copilot, Claude, GPT, Gemini, or any other).
 
 ---
 
-### Pre-Task Routine (Run Automatically)
+### Pre-Task Routine (Run Automatically, Every Time)
 
 **Step 1 — Classify the task**
 Determine which Obsidian vault folder and template applies:
@@ -18,7 +19,7 @@ Determine which Obsidian vault folder and template applies:
 | Code snippet / function | `Snippets/` | `Snippet_Template.md` |
 | Project planning / features | `Projects/` | `Project_Template.md` |
 | Daily progress / summary | `Daily_Journal/` | `Daily_Journal_Template.md` |
-| Reusable Claude prompt | `Prompts/` | `Prompt_Template.md` |
+| Reusable AI prompt | `Prompts/` | `Prompt_Template.md` |
 | Concept / research / docs | `Knowledge/` | *(free-form note)* |
 
 **Step 2 — Generate the Obsidian note**
@@ -28,12 +29,12 @@ Include all frontmatter fields (title, date, language, status, tags) and all con
 **Step 3 — Solve the task**
 Provide the full solution, fix, snippet, explanation, or summary as requested.
 
-**Step 4 — Append Claude's output to the note**
-Add Claude's response into the relevant field of the note:
-- Bug fix → `## 🤖 Claude Solution`
+**Step 4 — Append the AI output to the note**
+Add your response into the relevant field of the note:
+- Bug fix → `## 🤖 AI Solution`
 - Snippet → `## 💻 Code` + `## 🔍 How It Works`
-- Project → `## 🤖 Claude Prompts Used`
-- Journal → `## 🤖 Claude Interactions`
+- Project → `## 🤖 AI Prompts Used`
+- Journal → `## 🤖 AI Interactions`
 - Prompt → `## 💬 Example Interaction`
 
 **Step 5 — Remind to save**
@@ -62,4 +63,4 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/maxwellcudjoe/maxsidian
 curl -fsSL https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/setup_vault.sh | bash
 ```
 
-This script creates the `obsidian/` folder, downloads all templates, and installs this `copilot-instructions.md` file automatically. After it runs once, Claude auto-invokes `obsidian_superpower` on every task in this repo with no further setup.
+This script creates the `obsidian/` folder, downloads all templates, and installs this instructions file automatically. After it runs once, any AI assistant will auto-invoke `obsidian_superpower` on every task in this repo with no further setup.

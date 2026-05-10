@@ -20,7 +20,7 @@ tags:
 | **Language** | <% tp.system.prompt("Language") %> |
 | **Use Case** | <% tp.system.prompt("What problem does this solve?") %> |
 | **Related Project** | [[<% tp.system.prompt("Related project note name") %>]] |
-| **Source** | <% tp.system.prompt("Source: Claude | Stack Overflow | Docs | Self-written") %> |
+| **Source** | <% tp.system.prompt("Source: AI-generated | Stack Overflow | Docs | Self-written") %> |
 
 ---
 
@@ -69,13 +69,13 @@ tags:
 
 ---
 
-## 🤖 Claude Context
+## 🤖 AI Context
 
-> Was this snippet generated or refined by Claude? Paste the original prompt here.
+> Was this snippet generated or refined by an AI assistant? Paste the original prompt here.
 
 **Prompt used:**
 ```
-<% tp.system.prompt("Claude prompt used to generate this (or type 'N/A')") %>
+<% tp.system.prompt("AI prompt used to generate this (or type 'N/A')") %>
 ```
 
 ---

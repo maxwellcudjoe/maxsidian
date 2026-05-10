@@ -1,11 +1,17 @@
 name: obsidian_superpower
-version: "2.0.0"
+version: "2.1.0"
 author: maxwellcudjoe
+compatible_with:
+  - GitHub Copilot
+  - Claude (Anthropic)
+  - GPT-4 / ChatGPT
+  - Gemini
+  - Any instruction-following AI assistant
 description: >
-  Integrates Obsidian vaults into coding projects. Claude uses this skill to log bugs,
-  generate reusable code snippets, document projects end-to-end, record daily progress
-  journals, curate a prompt library, and build a searchable knowledge base —
-  all synced to GitHub and queryable via Dataview.
+  Integrates Obsidian vaults into coding projects. Any AI assistant uses this skill
+  to log bugs, generate reusable code snippets, document projects end-to-end,
+  record daily progress journals, curate a prompt library, and build a searchable
+  knowledge base — all synced to GitHub and queryable via Dataview.
 
 # ─────────────────────────────────────────
 # AUTO-INVOKE — RUNS BEFORE EVERY TASK
@@ -16,7 +22,8 @@ apply_to: "**"  # All file types, all projects
 
 pre_task_routine:
   description: >
-    Before solving ANY task, Claude MUST execute these steps automatically.
+    Before solving ANY task, the AI assistant MUST execute these steps automatically.
+    Applies to GitHub Copilot, Claude, GPT, Gemini, or any AI tool reading this file.
     No explicit invocation needed — this runs as a mandatory pre-task hook.
   steps:
     - step: 1
@@ -38,11 +45,11 @@ pre_task_routine:
     - step: 4
       name: Append to Note
       action: >
-        Paste Claude's output into the correct field of the note:
-        Bug fix → "## 🤖 Claude Solution"
+        Paste the AI output into the correct field of the note:
+        Bug fix → "## 🤖 AI Solution"
         Snippet → "## 💻 Code" + "## 🔍 How It Works"
-        Project → "## 🤖 Claude Prompts Used"
-        Journal → "## 🤖 Claude Interactions"
+        Project → "## 🤖 AI Prompts Used"
+        Journal → "## 🤖 AI Interactions"
         Prompt  → "## 💬 Example Interaction"
     - step: 5
       name: Remind to Save

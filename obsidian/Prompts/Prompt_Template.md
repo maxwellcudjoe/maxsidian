@@ -22,7 +22,7 @@ tags:
 | **Target Language** | <% tp.system.prompt("Language") %> |
 | **Reusable** | <% tp.system.prompt("yes / no") %> |
 | **Effectiveness** | ⭐ <% tp.system.prompt("Rating 1-5") %> / 5 |
-| **Model Used** | <% tp.system.prompt("Model (e.g. Claude Sonnet 4.5, GPT-4o)") %> |
+| **Model Used** | <% tp.system.prompt("Model (e.g. Claude Sonnet, GPT-4o, Copilot, Gemini)") %> |
 
 ---
 

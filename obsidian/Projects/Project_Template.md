@@ -47,15 +47,15 @@ tags:
 
 ---
 
-## 🤖 Claude Prompts Used
+## 🤖 AI Prompts Used
 
-> Log every significant Claude interaction here. Include the prompt and a summary of the response.
+> Log every significant AI interaction here. Include the prompt and a summary of the response.
 
 ### Prompt 1
 **Date:** <% tp.date.now("YYYY-MM-DD") %>
 **Prompt:**
 ```
-<% tp.system.prompt("Paste the Claude prompt you used") %>
+<% tp.system.prompt("Paste the AI prompt you used") %>
 ```
 **Summary of Response:**
 > 

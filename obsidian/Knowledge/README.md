@@ -66,9 +66,9 @@ WHERE contains(tags, "python")
 
 ---
 
-## 🤖 Claude as a Knowledge Source
+## 🤖 AI as a Knowledge Source
 
-Use Claude to build knowledge notes fast:
+Use any AI assistant to build knowledge notes fast:
 
 **Prompt template:**
 ```
@@ -81,7 +81,7 @@ Cover:
 5. When NOT to use it
 ```
 
-Paste Claude's response directly into a knowledge note. Tag it `#claude` so you know the source.
+Paste the AI's response directly into a knowledge note. Tag it `#ai` so you know the source.
 
 ---
 
