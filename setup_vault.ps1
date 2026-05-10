@@ -67,9 +67,30 @@ if (-not (Test-Path $readmeDest)) {
     }
 }
 
-# Install copilot-instructions.md so Claude auto-invokes the skill immediately
+# Install skills/obsidian-logging/SKILL.md (obra/superpowers-style skill file)
 Write-Host ""
-Write-Host "🤖 Installing Claude skill (copilot-instructions.md)..." -ForegroundColor Cyan
+Write-Host "🧩 Installing skills/obsidian-logging/SKILL.md..." -ForegroundColor Cyan
+$skillDir  = "skills/obsidian-logging"
+$skillDest = "$skillDir/SKILL.md"
+$skillUrl  = "https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/skills/obsidian-logging/SKILL.md"
+if (-not (Test-Path $skillDir)) {
+    New-Item -ItemType Directory -Path $skillDir -Force | Out-Null
+}
+if (-not (Test-Path $skillDest)) {
+    try {
+        Invoke-WebRequest -Uri $skillUrl -OutFile $skillDest -UseBasicParsing
+        Write-Host "  ✅ Installed $skillDest" -ForegroundColor Green
+    } catch {
+        Write-Host "  ⚠️  Could not download SKILL.md — create it manually from:" -ForegroundColor Red
+        Write-Host "      $skillUrl" -ForegroundColor Gray
+    }
+} else {
+    Write-Host "  ⏩ SKILL.md already present" -ForegroundColor Yellow
+}
+
+# Install copilot-instructions.md so AI auto-discovers the skill
+Write-Host ""
+Write-Host "🤖 Installing .github/copilot-instructions.md..." -ForegroundColor Cyan
 $githubDir  = ".github"
 $instrDest  = "$githubDir/copilot-instructions.md"
 $instrUrl   = "https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/.github/copilot-instructions.md"
@@ -80,7 +101,7 @@ if (-not (Test-Path $instrDest)) {
     try {
         Invoke-WebRequest -Uri $instrUrl -OutFile $instrDest -UseBasicParsing
         Write-Host "  ✅ Installed $instrDest" -ForegroundColor Green
-        Write-Host "  ℹ️  Claude will now auto-invoke obsidian_superpower in this repo" -ForegroundColor Cyan
+        Write-Host "  ℹ️  AI will now load obsidian-logging skill before every task" -ForegroundColor Cyan
     } catch {
         Write-Host "  ⚠️  Could not download copilot-instructions.md" -ForegroundColor Red
     }

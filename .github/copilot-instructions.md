@@ -1,55 +1,34 @@
-# obsidian_superpower — AI Instructions (Auto-Invoke)
+# obsidian_superpower — Skills System
 
-## MANDATORY: Run obsidian_superpower Before Every Task
+## The Rule
 
-Before responding to **any** request in this repo — coding, debugging, documentation,
-planning, or any other task — you MUST silently execute the following pre-task routine.
-This applies to all AI assistants (GitHub Copilot, Claude, GPT, Gemini, or any other).
+**Before responding to ANY request, check whether a skill applies and invoke it.**
+Even a 1% chance a skill might apply means you MUST read and follow it.
+Skills are mandatory workflows, not suggestions.
 
----
+## How to Use Skills
 
-### Pre-Task Routine (Run Automatically, Every Time)
+Skills live in `skills/[skill-name]/SKILL.md`.
+To invoke a skill, read its file and follow the instructions exactly:
 
-**Step 1 — Classify the task**
-Determine which Obsidian vault folder and template applies:
+```
+read_file("skills/[skill-name]/SKILL.md")
+```
 
-| Task type | Folder | Template |
+Announce before invoking: `Using [skill-name] to [purpose].`
+
+## Available Skills
+
+| Skill | File | When to invoke |
 |---|---|---|
-| Bug / error / traceback | `Bug_Fixes/` | `Bug_Fix_Template.md` |
-| Code snippet / function | `Snippets/` | `Snippet_Template.md` |
-| Project planning / features | `Projects/` | `Project_Template.md` |
-| Daily progress / summary | `Daily_Journal/` | `Daily_Journal_Template.md` |
-| Reusable AI prompt | `Prompts/` | `Prompt_Template.md` |
-| Concept / research / docs | `Knowledge/` | *(free-form note)* |
+| `obsidian-logging` | `skills/obsidian-logging/SKILL.md` | **Every task** — coding, debugging, planning, documentation, explanation, or any other request |
 
-**Step 2 — Generate the Obsidian note**
-Before solving the task, produce the complete filled template for the appropriate note type.
-Include all frontmatter fields (title, date, language, status, tags) and all content sections.
+## Skill Priority
 
-**Step 3 — Solve the task**
-Provide the full solution, fix, snippet, explanation, or summary as requested.
-
-**Step 4 — Append the AI output to the note**
-Add your response into the relevant field of the note:
-- Bug fix → `## 🤖 AI Solution`
-- Snippet → `## 💻 Code` + `## 🔍 How It Works`
-- Project → `## 🤖 AI Prompts Used`
-- Journal → `## 🤖 AI Interactions`
-- Prompt → `## 💬 Example Interaction`
-
-**Step 5 — Remind to save**
-End every response with:
-```
-📁 Save this note to: obsidian/[FOLDER]/[NOTE_TITLE].md
-🔄 Obsidian Git will auto-push to GitHub within 30 minutes.
-```
+`obsidian-logging` applies to **every** request in this repo. There are no exceptions.
+Read the skill file before producing any response.
 
 ---
-
-## Skill Source
-- Skill file: [`obsidian_skill.yaml`](../obsidian_skill.yaml)
-- Vault: [`obsidian/`](../obsidian/)
-- Repo: https://github.com/maxwellcudjoe/maxsidian
 
 ## Install Instruction (one command per repo)
 
@@ -62,5 +41,3 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/maxwellcudjoe/maxsidian
 ```bash
 curl -fsSL https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/setup_vault.sh | bash
 ```
-
-This script creates the `obsidian/` folder, downloads all templates, and installs this instructions file automatically. After it runs once, any AI assistant will auto-invoke `obsidian_superpower` on every task in this repo with no further setup.
