@@ -14,7 +14,35 @@ Claude loads this skill to:
 - Generate full note content — diagnoses, code, decisions, summaries
 - Log every Claude interaction back into the vault for future reference
 
-**To activate the skill**, reference `obsidian_skill.yaml` when starting a Claude session:
+---
+
+## 🚀 Install & Use — One Command, Universal Access
+
+### Install the Skill
+Tell Claude once per session:
+```
+Install skill from https://github.com/maxwellcudjoe/maxsidian/tree/master/obsidian
+```
+Claude will load `obsidian_skill.yaml`, internalize the vault structure, templates, workflow, and tagging convention — then it's ready to use across any coding project.
+
+### Call the Skill by Name
+
+| What you want | Say to Claude |
+|---|---|
+| Log a bug | `Claude, use obsidian_superpower to log this bug: [ERROR]` |
+| Save a snippet | `Claude, use obsidian_superpower to generate a snippet and save it in Snippets.` |
+| Document a project | `Claude, use obsidian_superpower to create a project note for [PROJECT NAME].` |
+| Write today's journal | `Claude, use obsidian_superpower to summarize today's progress in Daily_Journal.` |
+| Save a prompt | `Claude, use obsidian_superpower to store this prompt in the Prompts library.` |
+| Add a knowledge note | `Claude, use obsidian_superpower to write a knowledge note explaining [CONCEPT].` |
+
+### What Claude Does After Each Call
+1. Selects the right template from the vault
+2. Fills all frontmatter and content fields from your input
+3. Returns the complete note, ready to paste into Obsidian
+4. Obsidian Git auto-commits and pushes to this repo within 30 minutes
+
+**To activate the skill manually**, reference the YAML directly:
 ```
 Load the obsidian_superpower skill from obsidian_skill.yaml and help me log a bug.
 ```
