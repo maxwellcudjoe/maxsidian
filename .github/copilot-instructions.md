@@ -50,13 +50,7 @@ End every response with:
 - Vault: [`obsidian/`](../obsidian/)
 - Repo: https://github.com/maxwellcudjoe/maxsidian
 
-## Install Instruction (for new sessions)
-```
-Install skill from https://github.com/maxwellcudjoe/maxsidian/tree/master/obsidian
-```
-
-## First-Time Setup in a New Repo
-Run the setup script once to create the `obsidian/` folder structure and download all templates:
+## Install Instruction (one command per repo)
 
 **Windows (PowerShell):**
 ```powershell
@@ -68,4 +62,4 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/maxwellcudjoe/maxsidian
 curl -fsSL https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/setup_vault.sh | bash
 ```
 
-This creates `obsidian/Projects/`, `obsidian/Snippets/`, `obsidian/Bug_Fixes/`, `obsidian/Knowledge/`, `obsidian/Prompts/`, and `obsidian/Daily_Journal/` — with all templates downloaded — in the current repo. From then on, Claude saves notes directly into that folder and Obsidian Git pushes updates to GitHub automatically.
+This script creates the `obsidian/` folder, downloads all templates, and installs this `copilot-instructions.md` file automatically. After it runs once, Claude auto-invokes `obsidian_superpower` on every task in this repo with no further setup.

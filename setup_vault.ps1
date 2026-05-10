@@ -67,6 +67,27 @@ if (-not (Test-Path $readmeDest)) {
     }
 }
 
+# Install copilot-instructions.md so Claude auto-invokes the skill immediately
+Write-Host ""
+Write-Host "🤖 Installing Claude skill (copilot-instructions.md)..." -ForegroundColor Cyan
+$githubDir  = ".github"
+$instrDest  = "$githubDir/copilot-instructions.md"
+$instrUrl   = "https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/.github/copilot-instructions.md"
+if (-not (Test-Path $githubDir)) {
+    New-Item -ItemType Directory -Path $githubDir -Force | Out-Null
+}
+if (-not (Test-Path $instrDest)) {
+    try {
+        Invoke-WebRequest -Uri $instrUrl -OutFile $instrDest -UseBasicParsing
+        Write-Host "  ✅ Installed $instrDest" -ForegroundColor Green
+        Write-Host "  ℹ️  Claude will now auto-invoke obsidian_superpower in this repo" -ForegroundColor Cyan
+    } catch {
+        Write-Host "  ⚠️  Could not download copilot-instructions.md" -ForegroundColor Red
+    }
+} else {
+    Write-Host "  ⏩ copilot-instructions.md already present" -ForegroundColor Yellow
+}
+
 Write-Host ""
 Write-Host "📄 Adding obsidian/ to .gitignore exceptions..." -ForegroundColor Cyan
 $gitignorePath = ".gitignore"
@@ -93,6 +114,5 @@ Write-Host ""
 Write-Host "Next steps:" -ForegroundColor White
 Write-Host "  1. Open this repo folder as your Obsidian vault" -ForegroundColor Gray
 Write-Host "  2. Install plugins: Templater, Dataview, Obsidian Git, Calendar" -ForegroundColor Gray
-Write-Host "  3. Tell Claude: 'Install skill from https://github.com/maxwellcudjoe/maxsidian/tree/master/obsidian'" -ForegroundColor Gray
-Write-Host "  4. Claude will now log every task into obsidian/ automatically" -ForegroundColor Gray
+Write-Host "  3. Claude will auto-invoke obsidian_superpower on every task — no setup needed" -ForegroundColor Gray
 Write-Host ""

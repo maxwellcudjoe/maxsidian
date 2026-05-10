@@ -66,6 +66,23 @@ if [ ! -f "$readme_dest" ]; then
     fi
 fi
 
+# Install copilot-instructions.md so Claude auto-invokes the skill immediately
+echo ""
+echo "🤖 Installing Claude skill (copilot-instructions.md)..."
+mkdir -p .github
+INSTR_DEST=".github/copilot-instructions.md"
+INSTR_URL="https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/.github/copilot-instructions.md"
+if [ ! -f "$INSTR_DEST" ]; then
+    if curl -fsSL "$INSTR_URL" -o "$INSTR_DEST" 2>/dev/null; then
+        echo "  ✅ Installed $INSTR_DEST"
+        echo "  ℹ️  Claude will now auto-invoke obsidian_superpower in this repo"
+    else
+        echo "  ⚠️  Could not download copilot-instructions.md"
+    fi
+else
+    echo "  ⏩ copilot-instructions.md already present"
+fi
+
 echo ""
 echo "📄 Adding obsidian/ entries to .gitignore..."
 GITIGNORE=".gitignore"
@@ -91,6 +108,5 @@ echo ""
 echo "Next steps:"
 echo "  1. Open this repo folder as your Obsidian vault"
 echo "  2. Install plugins: Templater, Dataview, Obsidian Git, Calendar"
-echo "  3. Tell Claude: 'Install skill from https://github.com/maxwellcudjoe/maxsidian/tree/master/obsidian'"
-echo "  4. Claude will now log every task into obsidian/ automatically"
+echo "  3. Claude will auto-invoke obsidian_superpower on every task — no setup needed"
 echo ""
