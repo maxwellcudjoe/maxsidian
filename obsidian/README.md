@@ -1,6 +1,23 @@
-# 🧠 Obsidian Knowledge Base — Coding Projects
+# 🧠 Obsidian Superpower — Claude-Integrated Knowledge Base
 
-> A structured, Claude-powered knowledge system for managing coding projects, bugs, snippets, prompts, and daily progress — synced with GitHub.
+> A production-grade, Claude-powered knowledge system for developers. Log bugs, curate reusable snippets, document projects, run a daily coding journal, and build a searchable second brain — all synced with GitHub and powered by the `obsidian_superpower` skill.
+
+---
+
+## 🔌 Skill Integration
+
+This vault is driven by the **`obsidian_superpower`** skill defined in [`obsidian_skill.yaml`](../obsidian_skill.yaml) at the repo root.
+
+Claude loads this skill to:
+- Auto-select the right template based on your trigger (bug, snippet, project, journal, prompt)
+- Pre-fill frontmatter and structured fields from your input
+- Generate full note content — diagnoses, code, decisions, summaries
+- Log every Claude interaction back into the vault for future reference
+
+**To activate the skill**, reference `obsidian_skill.yaml` when starting a Claude session:
+```
+Load the obsidian_superpower skill from obsidian_skill.yaml and help me log a bug.
+```
 
 ---
 
@@ -25,7 +42,21 @@ obsidian/
 
 ---
 
-## 🔧 How to Use These Templates with Obsidian
+## � Template Descriptions
+
+| Template | Folder | Key Fields |
+|---|---|---|
+| **Project_Template.md** | `Projects/` | Goals, Tasks (backlog/in-progress/done), Tech Stack, Claude Prompts log, Status log |
+| **Snippet_Template.md** | `Snippets/` | Function name, Language, Code block, Use case, Variations, Claude source |
+| **Bug_Fix_Template.md** | `Bug_Fixes/` | Error, Context, Root cause, Steps to reproduce, Claude Solution, Fix applied, Lessons |
+| **Prompt_Template.md** | `Prompts/` | Prompt text with `[PLACEHOLDERS]`, Effectiveness rating, Variations, Example interaction |
+| **Daily_Journal_Template.md** | `Daily_Journal/` | Focus, Session table, Claude interactions log, Insights, Energy, Next steps |
+
+All templates use **Obsidian Templater** syntax (`<% tp.system.prompt("...") %>`) so Claude or Templater can auto-fill fields interactively when a note is created.
+
+---
+
+## 🔧 How to Use with Obsidian
 
 ### 1. Install Required Plugins
 Open **Settings → Community Plugins** and install:
@@ -34,77 +65,117 @@ Open **Settings → Community Plugins** and install:
 |---|---|
 | **Templater** | Auto-fills template fields using `<% ... %>` syntax |
 | **Dataview** | Queries notes like a database using `dataview` code blocks |
+| **Obsidian Git** | Auto-commits and pushes vault to GitHub on a schedule |
 | **Calendar** | Daily journal navigation |
+| **CodeMirror Options** | Enhanced code block rendering |
 | **Tag Wrangler** | Manage and rename tags across vault |
 
 ### 2. Configure Templater
 - Go to **Settings → Templater**
-- Set **Template folder** to `obsidian/` (or your vault subfolder)
+- Set **Template folder** to `obsidian/`
 - Enable **Trigger Templater on new file creation**
-- Enable **Enable system commands** if using `tp.system.exec`
+- Enable **Enable system commands**
+- Map folders to templates:
+
+| Folder | Template |
+|---|---|
+| `Bug_Fixes/` | `Bug_Fix_Template.md` |
+| `Projects/` | `Project_Template.md` |
+| `Snippets/` | `Snippet_Template.md` |
+| `Prompts/` | `Prompt_Template.md` |
+| `Daily_Journal/` | `Daily_Journal_Template.md` |
 
 ### 3. Create a Note from a Template
-- Press `Ctrl+P` → type **"Templater: Create new note from template"**
-- Select the template (e.g., `Bug_Fix_Template.md`)
-- Templater will prompt you to fill each `tp.system.prompt()` field interactively
+- Press `Ctrl+P` → **"Templater: Create new note from template"**
+- Select the template
+- Templater prompts you to fill each field interactively
 
-### 4. Folder-Specific Templating (Auto-Apply)
-- In Templater settings, map each folder to its template:
-  - `Bug_Fixes/` → `Bug_Fix_Template.md`
-  - `Projects/` → `Project_Template.md`
-  - `Daily_Journal/` → `Daily_Journal_Template.md`
-- Now, creating any new note in that folder auto-applies the template.
+### 4. Graph View — See Your Knowledge Network
+- Press `Ctrl+G` to open Graph View
+- Enable **Tags** and **Attachments** in the filter panel
+- Color-code by tag: `#bug` → red, `#project` → blue, `#snippet` → green
+- Watch connections form between bugs, projects, snippets, and prompts
 
 ---
 
-## 🤖 How Claude Integrates as a Reasoning Engine
+## 🤖 Claude Integration — Skill-Powered Workflow
 
-Claude acts as your **AI pair programmer and knowledge curator** inside this vault:
+Claude acts as your **AI pair programmer, knowledge curator, and reasoning engine** inside this vault. The `obsidian_superpower` skill defines the exact 5-step workflow:
 
-### Workflow
+### The Workflow
+
 ```
-You hit a bug
-  → Log it in Bug_Fixes/ using the template
-  → Paste the error into Claude
-  → Claude provides a solution
-  → You paste the solution back into the note
-  → Tag it, mark Status: Resolved
-  → Dataview surfaces it next time the bug recurs
+Trigger (bug / snippet / project / journal / prompt)
+  │
+  ▼
+Step 1 — Retrieve Context
+  Claude reads existing vault notes to avoid duplicating solved problems
+  │
+  ▼
+Step 2 — Identify Template
+  Claude maps the trigger to the right folder and template
+  │
+  ▼
+Step 3 — Generate or Refine
+  Claude produces the full note: diagnosis, code, explanation, next steps
+  │
+  ▼
+Step 4 — Save Back to Vault
+  Note saved → Obsidian Git auto-commits → GitHub updated
+  │
+  ▼
+Step 5 — Visualize & Query
+  Dataview surfaces the note in live dashboards and tables
 ```
 
-### Prompt Strategy (stored in Prompts/)
-Each `Prompt_Template.md` stores a reusable Claude prompt so you never write the same instruction twice.
+### Starting a Claude Session with This Skill
 
-**Example prompts to store:**
-- `"Debug this Python traceback and explain the root cause: [ERROR]"`
-- `"Refactor this function for readability. Language: [LANG]. Code: [CODE]"`
-- `"Explain this concept as if I'm a junior dev: [CONCEPT]"`
+```
+Load the obsidian_superpower skill from obsidian_skill.yaml.
+I hit a bug in my Python FastAPI project — here's the traceback: [ERROR]
+```
 
-### Claude Field in Templates
-Every template includes a **Claude Solution** or **Claude Prompts** field — paste Claude's exact response there. This creates a searchable history of AI-assisted work.
+```
+Load the obsidian_superpower skill.
+Generate a reusable snippet for parsing environment variables in Node.js.
+```
+
+```
+Load the obsidian_superpower skill.
+Write my daily journal entry. Today I worked on: [SUMMARY]
+```
+
+### Claude Field in Every Template
+Every template includes a **Claude Solution**, **Claude Prompts**, or **Claude Interactions** field. Paste Claude's exact response there — this creates a searchable, version-controlled history of every AI-assisted decision.
 
 ---
 
 ## 🔄 GitHub Sync — Version Control Your Knowledge
 
-### Initial Setup
+### Initial Setup (already done for this repo)
 ```bash
-# Inside your obsidian/ folder (or vault root)
 git init
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git remote add origin https://github.com/maxwellcudjoe/maxsidian.git
 git add .
 git commit -m "init: obsidian knowledge base"
-git push -u origin main
+git push -u origin master
 ```
 
-### Daily Sync Routine
+### Daily Sync (manual)
 ```bash
 git add .
 git commit -m "journal: $(date +%Y-%m-%d) daily notes"
 git push
 ```
 
-### Recommended `.gitignore` for Obsidian Vaults
+### Automatic Sync via Obsidian Git Plugin
+1. Install **Obsidian Git** from Community Plugins
+2. Go to **Settings → Obsidian Git**
+3. Set **Auto-commit interval**: `30` minutes
+4. Set **Commit message**: `vault backup: {{date}}`
+5. Enable **Auto push after commit**
+
+### Recommended `.gitignore`
 ```gitignore
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
@@ -112,21 +183,13 @@ git push
 *.canvas
 ```
 
-> **Tip:** Use the **Obsidian Git** plugin to auto-commit and push on a schedule directly from inside Obsidian without touching a terminal.
-
-### Obsidian Git Plugin Setup
-1. Install **Obsidian Git** from Community Plugins
-2. Go to **Settings → Obsidian Git**
-3. Set **Auto-commit interval** (e.g., every 30 minutes)
-4. Set commit message format: `vault backup: {{date}}`
-
 ---
 
 ## 🔍 Querying Notes with Dataview
 
-Dataview lets you treat your notes like a database. Add these blocks anywhere in your vault.
+Dataview turns your vault into a live database. Paste these blocks into any Obsidian note and switch to Reading View.
 
-### List All Open Bugs
+### All Open Bugs
 ````markdown
 ```dataview
 TABLE error, language, status
@@ -164,7 +227,7 @@ SORT file.ctime DESC
 ```
 ````
 
-### All Claude Prompts Tagged #reusable
+### All Reusable Claude Prompts
 ````markdown
 ```dataview
 LIST
@@ -173,23 +236,50 @@ WHERE contains(tags, "reusable")
 ```
 ````
 
+### Full Knowledge Base Index
+````markdown
+```dataview
+TABLE category, tags, file.ctime AS Created
+FROM "Knowledge"
+SORT file.ctime DESC
+```
+````
+
+---
+
+## ✅ Benefits
+
+| Benefit | How |
+|---|---|
+| Never lose a bug fix | Every error + solution is logged, tagged, and searchable |
+| Reuse Claude prompts | Prompt library means you never write the same instruction twice |
+| Track project progress | Structured notes with status fields surfaced by Dataview |
+| Build a knowledge base | Concepts grow with every coding session |
+| Version-controlled brain | GitHub sync = full history of every note ever written |
+| See hidden connections | Graph view links bugs → projects → snippets → prompts |
+| Skill-powered automation | `obsidian_superpower` skill auto-selects templates and fills fields |
+
 ---
 
 ## 🏷️ Tagging Convention
 
-Use consistent tags across all notes for powerful filtering:
+Use consistent tags across all notes for powerful Dataview filtering:
 
 | Tag | Usage |
 |---|---|
 | `#bug` | Bug fix notes |
 | `#snippet` | Code snippets |
 | `#project` | Project notes |
+| `#journal` | Daily journal entries |
+| `#prompt` | Claude prompts |
+| `#knowledge` | Concept / research notes |
 | `#claude` | Claude-assisted content |
 | `#resolved` | Closed bugs / completed tasks |
 | `#active` | In-progress work |
 | `#python` / `#js` / `#ts` | Language-specific |
 | `#reusable` | Prompts or snippets worth reusing |
 | `#review` | Notes that need follow-up |
+| `#verified` | Tested and confirmed correct |
 
 ---
 
@@ -202,7 +292,8 @@ Use consistent tags across all notes for powerful filtering:
 | Search vault | `Ctrl+Shift+F` |
 | Graph view | `Ctrl+G` |
 | Toggle Dataview block | Render in Reading View |
+| Git push (manual) | `git add . ; git commit -m "msg" ; git push` |
 
 ---
 
-*Built for developers. Powered by Claude. Synced with GitHub.*
+*Built for developers. Powered by [`obsidian_superpower`](../obsidian_skill.yaml). Synced with [GitHub](https://github.com/maxwellcudjoe/maxsidian).*

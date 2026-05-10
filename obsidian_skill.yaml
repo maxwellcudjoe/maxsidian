@@ -1,0 +1,271 @@
+name: obsidian_superpower
+version: "1.0.0"
+author: maxwellcudjoe
+description: >
+  Integrates Obsidian vaults into coding projects. Claude uses this skill to log bugs,
+  generate reusable code snippets, document projects end-to-end, record daily progress
+  journals, curate a prompt library, and build a searchable knowledge base —
+  all synced to GitHub and queryable via Dataview.
+
+# ─────────────────────────────────────────
+# TRIGGERS
+# ─────────────────────────────────────────
+triggers:
+  - bug fix
+  - debug error
+  - traceback
+  - snippet
+  - reusable code
+  - project documentation
+  - daily journal
+  - coding log
+  - prompt engineering
+  - prompt library
+  - knowledge note
+  - obsidian
+  - vault
+
+# ─────────────────────────────────────────
+# VAULT STRUCTURE
+# ─────────────────────────────────────────
+vault_structure:
+  root: obsidian/
+  folders:
+    - name: Projects
+      template: Project_Template.md
+      purpose: >
+        One note per project. Tracks goals, tasks (backlog/in-progress/done),
+        tech stack, Claude prompt history, related notes, and status.
+      dataview_field: status
+
+    - name: Snippets
+      template: Snippet_Template.md
+      purpose: >
+        Reusable code blocks. Indexed by language, use case, and project.
+        Claude generates or refines snippets and saves them here.
+      dataview_field: language
+
+    - name: Bug_Fixes
+      template: Bug_Fix_Template.md
+      purpose: >
+        Error-to-solution log. Each note captures the error, context,
+        root cause, Claude's diagnosis, the applied fix, and lessons learned.
+      dataview_field: status
+
+    - name: Knowledge
+      template: null
+      purpose: >
+        Concepts, protocol deep dives, tool comparisons, API summaries,
+        and architecture decisions. Free-form but tagged for Dataview.
+      dataview_field: category
+
+    - name: Prompts
+      template: Prompt_Template.md
+      purpose: >
+        Reusable Claude prompt library. Each note stores a parameterized prompt,
+        example interactions, effectiveness rating, and known limitations.
+      dataview_field: category
+
+    - name: Daily_Journal
+      template: Daily_Journal_Template.md
+      purpose: >
+        Daily coding log. Captures focus, session blocks, Claude interactions,
+        bugs hit, insights, energy levels, and next steps.
+      dataview_field: date
+
+# ─────────────────────────────────────────
+# PLUGINS
+# ─────────────────────────────────────────
+plugins:
+  required:
+    - name: Templater
+      purpose: Auto-fills template fields interactively using tp.system.prompt() syntax
+      config:
+        template_folder: obsidian/
+        trigger_on_new_file: true
+        enable_system_commands: true
+        folder_templates:
+          - folder: Projects
+            template: Project_Template.md
+          - folder: Snippets
+            template: Snippet_Template.md
+          - folder: Bug_Fixes
+            template: Bug_Fix_Template.md
+          - folder: Prompts
+            template: Prompt_Template.md
+          - folder: Daily_Journal
+            template: Daily_Journal_Template.md
+
+    - name: Dataview
+      purpose: Query notes like a database — surface bugs, snippets, and projects dynamically
+
+    - name: Obsidian Git
+      purpose: Auto-commit and push vault to GitHub on a schedule
+      config:
+        auto_commit_interval: 30
+        commit_message: "vault backup: {{date}}"
+        auto_push: true
+
+    - name: Calendar
+      purpose: Navigate and create daily journal entries
+
+  optional:
+    - name: CodeMirror Options
+      purpose: Enhanced code block rendering inside notes
+    - name: Tag Wrangler
+      purpose: Rename and manage tags across the entire vault
+
+# ─────────────────────────────────────────
+# WORKFLOW — HOW CLAUDE USES THIS SKILL
+# ─────────────────────────────────────────
+workflow:
+  steps:
+    - step: 1
+      name: Retrieve Context
+      description: >
+        Claude reads the relevant Obsidian folder to understand what already
+        exists — active projects, open bugs, known snippets — before generating anything.
+      actions:
+        - Read Projects/ for active project context
+        - Read Bug_Fixes/ for recurring error patterns
+        - Read Snippets/ for already-solved problems
+
+    - step: 2
+      name: Identify Template
+      description: >
+        Based on the trigger (bug, snippet, project, journal, prompt),
+        Claude selects the appropriate template and populates each field.
+      actions:
+        - Map trigger keyword to folder and template
+        - Pre-fill frontmatter metadata (date, language, status)
+        - Populate content fields from the user's input
+
+    - step: 3
+      name: Generate or Refine
+      description: >
+        Claude produces the full note content — diagnosis, code, explanation,
+        next steps — ready to paste or save directly into Obsidian.
+      actions:
+        - Generate error diagnosis and fix for Bug_Fix notes
+        - Write clean, commented code blocks for Snippet notes
+        - Draft goals, tasks, and architecture tables for Project notes
+        - Summarize the day's progress for Journal notes
+        - Create parameterized, reusable prompts for Prompt notes
+
+    - step: 4
+      name: Save Back to Vault
+      description: >
+        The note is saved into the correct folder. Obsidian Git auto-commits
+        and pushes to GitHub within the configured interval.
+      actions:
+        - Save note to the correct obsidian/ subfolder
+        - Git auto-commit triggers via Obsidian Git plugin
+        - GitHub repo updated with latest vault state
+
+    - step: 5
+      name: Visualize & Query
+      description: >
+        Dataview queries surface the note in dashboards — open bugs,
+        active projects, snippets by language, today's journal.
+      actions:
+        - Dataview renders live tables from note frontmatter
+        - Graph view shows links between bugs, projects, and snippets
+        - Calendar plugin highlights journal entries by day
+
+# ─────────────────────────────────────────
+# DATAVIEW QUERY EXAMPLES
+# ─────────────────────────────────────────
+dataview_examples:
+  open_bugs: |
+    ```dataview
+    TABLE error, language, status
+    FROM "Bug_Fixes"
+    WHERE status != "Resolved"
+    SORT file.mtime DESC
+    ```
+
+  active_projects: |
+    ```dataview
+    TABLE goals, status
+    FROM "Projects"
+    WHERE status = "Active"
+    ```
+
+  snippets_by_language: |
+    ```dataview
+    TABLE language, use_case
+    FROM "Snippets"
+    WHERE language = "Python"
+    SORT file.ctime DESC
+    ```
+
+  todays_journal: |
+    ```dataview
+    LIST
+    FROM "Daily_Journal"
+    WHERE file.day = date(today)
+    ```
+
+  reusable_prompts: |
+    ```dataview
+    LIST
+    FROM "Prompts"
+    WHERE contains(tags, "reusable")
+    ```
+
+# ─────────────────────────────────────────
+# TAGGING CONVENTION
+# ─────────────────────────────────────────
+tags:
+  global:
+    - "#bug"
+    - "#snippet"
+    - "#project"
+    - "#journal"
+    - "#prompt"
+    - "#knowledge"
+    - "#claude"
+  status:
+    - "#active"
+    - "#resolved"
+    - "#paused"
+    - "#review"
+  language:
+    - "#python"
+    - "#javascript"
+    - "#typescript"
+    - "#bash"
+    - "#sql"
+  quality:
+    - "#reusable"
+    - "#needs-review"
+    - "#verified"
+
+# ─────────────────────────────────────────
+# GITHUB SYNC
+# ─────────────────────────────────────────
+github:
+  repo: https://github.com/maxwellcudjoe/maxsidian
+  branch: master
+  sync_method: obsidian_git_plugin
+  gitignore:
+    - .obsidian/workspace.json
+    - .obsidian/workspace-mobile.json
+    - .trash/
+    - "*.canvas"
+  manual_push_command: |
+    git add .
+    git commit -m "vault backup: $(date +%Y-%m-%d)"
+    git push
+
+# ─────────────────────────────────────────
+# BENEFITS
+# ─────────────────────────────────────────
+benefits:
+  - Never lose a bug fix — every error and solution is searchable
+  - Reuse Claude prompts without rewriting them from scratch
+  - Track project progress across sessions with structured notes
+  - Build a personal knowledge base that grows with every coding session
+  - Dataview turns your vault into a queryable second brain
+  - GitHub sync means your knowledge base is version-controlled and backed up
+  - Graph view reveals hidden connections between bugs, projects, and concepts
