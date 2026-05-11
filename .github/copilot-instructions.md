@@ -28,6 +28,16 @@ Announce before invoking: `Using [skill-name] to [purpose].`
 `obsidian-logging` applies to **every** request in this repo. There are no exceptions.
 Read the skill file before producing any response.
 
+## Environment Awareness (Step 0)
+
+Before invoking the skill workflow, always orient by reading:
+1. `obsidian/index.md` — what pages already exist in the wiki
+2. Last 10 entries of `obsidian/log.md` — what was done recently
+3. Active project/work folder — the raw source layer (read freely, never modify)
+
+This makes every response context-aware: the LLM knows the current state of the wiki,
+recent history, and the actual codebase being worked on before it acts.
+
 ---
 
 ## Install Instruction (one command per repo)

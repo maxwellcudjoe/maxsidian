@@ -88,25 +88,115 @@ if (-not (Test-Path $skillDest)) {
     Write-Host "  ⏩ SKILL.md already present" -ForegroundColor Yellow
 }
 
-# Install copilot-instructions.md so AI auto-discovers the skill
+# Install IDE-specific instruction files so skill auto-triggers in every AI tool
 Write-Host ""
-Write-Host "🤖 Installing .github/copilot-instructions.md..." -ForegroundColor Cyan
-$githubDir  = ".github"
-$instrDest  = "$githubDir/copilot-instructions.md"
-$instrUrl   = "https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/.github/copilot-instructions.md"
-if (-not (Test-Path $githubDir)) {
-    New-Item -ItemType Directory -Path $githubDir -Force | Out-Null
-}
-if (-not (Test-Path $instrDest)) {
-    try {
-        Invoke-WebRequest -Uri $instrUrl -OutFile $instrDest -UseBasicParsing
-        Write-Host "  ✅ Installed $instrDest" -ForegroundColor Green
-        Write-Host "  ℹ️  AI will now load obsidian-logging skill before every task" -ForegroundColor Cyan
-    } catch {
-        Write-Host "  ⚠️  Could not download copilot-instructions.md" -ForegroundColor Red
+Write-Host "🤖 Installing IDE instruction files..." -ForegroundColor Cyan
+
+$baseUrl = "https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master"
+$ideFiles = @(
+    @{ dest = ".github/copilot-instructions.md"; dir = ".github" },
+    @{ dest = "CLAUDE.md";       dir = $null },
+    @{ dest = "AGENTS.md";       dir = $null },
+    @{ dest = ".cursorrules";    dir = $null },
+    @{ dest = ".windsurfrules";  dir = $null }
+)
+
+foreach ($f in $ideFiles) {
+    if ($f.dir -and -not (Test-Path $f.dir)) {
+        New-Item -ItemType Directory -Path $f.dir -Force | Out-Null
     }
+    if (-not (Test-Path $f.dest)) {
+        try {
+            Invoke-WebRequest -Uri "$baseUrl/$($f.dest)" -OutFile $f.dest -UseBasicParsing
+            Write-Host "  ✅ Installed $($f.dest)" -ForegroundColor Green
+        } catch {
+            Write-Host "  ⚠️  Could not download $($f.dest)" -ForegroundColor Red
+        }
+    } else {
+        Write-Host "  ⏩ Already present: $($f.dest)" -ForegroundColor Yellow
+    }
+}
+
+# Bootstrap obsidian/index.md and obsidian/log.md
+Write-Host ""
+Write-Host "🗂️  Bootstrapping index.md and log.md..." -ForegroundColor Cyan
+$today = Get-Date -Format "yyyy-MM-dd"
+
+$indexDest = "$vault/index.md"
+if (-not (Test-Path $indexDest)) {
+    @"
+---
+title: "Wiki Index"
+date: "$today"
+tags: [index, meta]
+---
+
+# Wiki Index
+
+Master catalog of all pages in this vault.
+The LLM reads this first on every query to locate relevant pages before drilling in.
+Updated automatically on every ingest, query result saved, or new note created.
+
+> **Raw Sources:** The active project/work folder is the immutable source layer. The LLM reads from it but never modifies it.
+
+---
+
+## 📚 Knowledge
+
+| Page | Summary |
+|---|---|
+
+## 🗂️ Projects
+
+| Page | Summary |
+|---|---|
+
+## 🐛 Bug Fixes
+
+| Page | Summary |
+|---|---|
+
+## 💻 Snippets
+
+| Page | Summary |
+|---|---|
+
+## 💬 Prompts
+
+| Page | Summary |
+|---|---|
+
+## 📓 Daily Journal
+
+| Page | Summary |
+|---|---|
+"@ | Set-Content $indexDest
+    Write-Host "  ✅ Created $indexDest" -ForegroundColor Green
 } else {
-    Write-Host "  ⏩ copilot-instructions.md already present" -ForegroundColor Yellow
+    Write-Host "  ⏩ Already exists: $indexDest" -ForegroundColor Yellow
+}
+
+$logDest = "$vault/log.md"
+if (-not (Test-Path $logDest)) {
+    @"
+# Wiki Log
+
+Append-only chronological record of all operations performed on this vault.
+Each entry format: ``## [YYYY-MM-DD] <operation> | <title>``
+
+Operations: ``ingest`` · ``query`` · ``lint`` · ``setup``
+
+---
+
+## [$today] setup | Vault bootstrapped
+
+- Created obsidian/ folder structure and templates
+- Installed IDE instruction files (copilot-instructions.md, CLAUDE.md, AGENTS.md, .cursorrules, .windsurfrules)
+- Created obsidian/index.md and obsidian/log.md
+"@ | Set-Content $logDest
+    Write-Host "  ✅ Created $logDest" -ForegroundColor Green
+} else {
+    Write-Host "  ⏩ Already exists: $logDest" -ForegroundColor Yellow
 }
 
 Write-Host ""
@@ -134,6 +224,11 @@ Write-Host "✅ Vault setup complete!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor White
 Write-Host "  1. Open this repo folder as your Obsidian vault" -ForegroundColor Gray
-Write-Host "  2. Install plugins: Templater, Dataview, Obsidian Git, Calendar" -ForegroundColor Gray
-Write-Host "  3. Claude will auto-invoke obsidian_superpower on every task — no setup needed" -ForegroundColor Gray
+Write-Host "  2. Install Obsidian plugins: Templater, Dataview, Calendar" -ForegroundColor Gray
+Write-Host "  3. The LLM will auto-invoke obsidian_superpower on every task:" -ForegroundColor Gray
+Write-Host "     VS Code       -> .github/copilot-instructions.md" -ForegroundColor Gray
+Write-Host "     Claude Code   -> CLAUDE.md" -ForegroundColor Gray
+Write-Host "     Codex/ChatGPT -> AGENTS.md" -ForegroundColor Gray
+Write-Host "     Cursor        -> .cursorrules" -ForegroundColor Gray
+Write-Host "     Windsurf      -> .windsurfrules" -ForegroundColor Gray
 Write-Host ""

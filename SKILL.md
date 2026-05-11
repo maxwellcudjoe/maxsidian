@@ -71,11 +71,17 @@ User sends any request
   Paste into the correct AI field in the template
        │
        ▼
-⑤ Return the complete note + solution to user
-  Remind: "📁 Save this note to obsidian/[FOLDER]/[NOTE].md"
+⑤ Update obsidian/index.md
+  Add or revise this page's one-line entry under the correct category
        │
        ▼
-⑥ Obsidian Git auto-pushes to GitHub within 30 min
+⑥ Append to obsidian/log.md
+  ## [YYYY-MM-DD] <operation> | <title>
+  Never overwrite — append only
+       │
+       ▼
+⑦ Return the complete note + solution to user
+  Remind: "📁 Save this note to obsidian/[FOLDER]/[NOTE].md"
 ```
 
 ---

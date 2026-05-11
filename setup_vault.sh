@@ -83,21 +83,113 @@ else
     echo "  ⏩ SKILL.md already present"
 fi
 
-# Install .github/copilot-instructions.md so AI auto-discovers the skill
+# Install IDE-specific instruction files so skill auto-triggers in every AI tool
 echo ""
-echo "🤖 Installing .github/copilot-instructions.md..."
-mkdir -p .github
-INSTR_DEST=".github/copilot-instructions.md"
-INSTR_URL="https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master/.github/copilot-instructions.md"
-if [ ! -f "$INSTR_DEST" ]; then
-    if curl -fsSL "$INSTR_URL" -o "$INSTR_DEST" 2>/dev/null; then
-        echo "  ✅ Installed $INSTR_DEST"
-        echo "  ℹ️  AI will now load obsidian-logging skill before every task"
+echo "🤖 Installing IDE instruction files..."
+BASE_URL="https://raw.githubusercontent.com/maxwellcudjoe/maxsidian/master"
+
+IDE_FILES=(
+    ".github/copilot-instructions.md"
+    "CLAUDE.md"
+    "AGENTS.md"
+    ".cursorrules"
+    ".windsurfrules"
+)
+
+for dest in "${IDE_FILES[@]}"; do
+    dir=$(dirname "$dest")
+    [ "$dir" != "." ] && mkdir -p "$dir"
+    if [ ! -f "$dest" ]; then
+        if curl -fsSL "$BASE_URL/$dest" -o "$dest" 2>/dev/null; then
+            echo "  ✅ Installed $dest"
+        else
+            echo "  ⚠️  Could not download $dest"
+        fi
     else
-        echo "  ⚠️  Could not download copilot-instructions.md"
+        echo "  ⏩ Already present: $dest"
     fi
+done
+
+# Bootstrap obsidian/index.md and obsidian/log.md
+echo ""
+echo "🗂️  Bootstrapping index.md and log.md..."
+TODAY=$(date +%Y-%m-%d)
+
+INDEX_DEST="$VAULT/index.md"
+if [ ! -f "$INDEX_DEST" ]; then
+    cat > "$INDEX_DEST" << EOF
+---
+title: "Wiki Index"
+date: "$TODAY"
+tags: [index, meta]
+---
+
+# Wiki Index
+
+Master catalog of all pages in this vault.
+The LLM reads this first on every query to locate relevant pages before drilling in.
+Updated automatically on every ingest, query result saved, or new note created.
+
+> **Raw Sources:** The active project/work folder is the immutable source layer. The LLM reads from it but never modifies it.
+
+---
+
+## 📚 Knowledge
+
+| Page | Summary |
+|---|---|
+
+## 🗂️ Projects
+
+| Page | Summary |
+|---|---|
+
+## 🐛 Bug Fixes
+
+| Page | Summary |
+|---|---|
+
+## 💻 Snippets
+
+| Page | Summary |
+|---|---|
+
+## 💬 Prompts
+
+| Page | Summary |
+|---|---|
+
+## 📓 Daily Journal
+
+| Page | Summary |
+|---|---|
+EOF
+    echo "  ✅ Created $INDEX_DEST"
 else
-    echo "  ⏩ copilot-instructions.md already present"
+    echo "  ⏩ Already exists: $INDEX_DEST"
+fi
+
+LOG_DEST="$VAULT/log.md"
+if [ ! -f "$LOG_DEST" ]; then
+    cat > "$LOG_DEST" << EOF
+# Wiki Log
+
+Append-only chronological record of all operations performed on this vault.
+Each entry format: \`## [YYYY-MM-DD] <operation> | <title>\`
+
+Operations: \`ingest\` · \`query\` · \`lint\` · \`setup\`
+
+---
+
+## [$TODAY] setup | Vault bootstrapped
+
+- Created obsidian/ folder structure and templates
+- Installed IDE instruction files (copilot-instructions.md, CLAUDE.md, AGENTS.md, .cursorrules, .windsurfrules)
+- Created obsidian/index.md and obsidian/log.md
+EOF
+    echo "  ✅ Created $LOG_DEST"
+else
+    echo "  ⏩ Already exists: $LOG_DEST"
 fi
 
 echo ""
@@ -124,6 +216,11 @@ echo "✅ Vault setup complete!"
 echo ""
 echo "Next steps:"
 echo "  1. Open this repo folder as your Obsidian vault"
-echo "  2. Install plugins: Templater, Dataview, Obsidian Git, Calendar"
-echo "  3. Claude will auto-invoke obsidian_superpower on every task — no setup needed"
+echo "  2. Install Obsidian plugins: Templater, Dataview, Calendar"
+echo "  3. The LLM will auto-invoke obsidian_superpower on every task:"
+echo "     VS Code       -> .github/copilot-instructions.md"
+echo "     Claude Code   -> CLAUDE.md"
+echo "     Codex/ChatGPT -> AGENTS.md"
+echo "     Cursor        -> .cursorrules"
+echo "     Windsurf      -> .windsurfrules"
 echo ""

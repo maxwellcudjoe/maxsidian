@@ -13,6 +13,20 @@ Do NOT produce any solution output until you have first produced the complete fi
 Obsidian note template for the task. The note comes first, always.
 </HARD-GATE>
 
+## Step 0 — Orient (Environment Awareness)
+
+Before doing anything else, read these two files to understand the current state:
+
+1. **`obsidian/index.md`** — what pages already exist in the wiki. If a relevant page
+   exists, update it rather than creating a duplicate.
+2. **`obsidian/log.md`** (last 10 entries) — what was done recently. Avoid repeating
+   work already logged. Use recent context to inform how you frame the new note.
+3. **Scan the active project/work folder** — note what files, languages, and structure
+   are present. This is the raw source layer. Use it to make notes concrete and specific
+   to the actual codebase or content being worked on.
+
+Only after reading these three sources should you proceed to Step 1.
+
 ## Step 1 — Classify the Task
 
 | Task type | Vault folder | Template file |
@@ -59,19 +73,45 @@ Paste your solution into the correct section of the note:
 | Prompt | `## 💬 Example Interaction` |
 | Knowledge | main body of the note |
 
-## Step 5 — Remind to Save
+## Step 5 — Update index.md
+
+After creating or updating a note, add or update its entry in `obsidian/index.md`
+under the correct category section. Format:
+
+```
+| [[Note_Title]] | One-line summary of what this page covers |
+```
+
+If the page already exists in the index, update its summary if the content changed.
+
+## Step 6 — Append to log.md
+
+Append a new entry to `obsidian/log.md`. Format:
+
+```
+## [YYYY-MM-DD] <operation> | <title>
+
+- Created / Updated: `obsidian/[FOLDER]/[NOTE_TITLE].md`
+- Key points: <one or two bullet points about what was done>
+- Source: [[linked pages if any]]
+```
+
+Operation types: `ingest` (new source processed) · `query` (answer filed as page) · `lint` (health check) · `setup` (meta/config changes)
+
+## Step 7 — Remind to Save
 
 End **every** response with exactly:
 
 ```
 📁 Save this note to: obsidian/[FOLDER]/[NOTE_TITLE].md
-🔄 Obsidian Git will auto-push to GitHub within 30 minutes.
 ```
 
 ## Vault Structure Reference
 
 ```
 obsidian/
+├── index.md                        ← master catalog (LLM reads first on every query)
+├── log.md                          ← append-only operation timeline
 ├── Bug_Fixes/Bug_Fix_Template.md
 ├── Snippets/Snippet_Template.md
 ├── Projects/Project_Template.md
@@ -80,9 +120,17 @@ obsidian/
 └── Knowledge/README.md
 ```
 
+## Raw Sources
+
+The active **project/work folder** (wherever you are currently working) is the
+immutable raw sources layer. The LLM reads files from it as source material but
+**never modifies them**. The `obsidian/` vault is the compiled knowledge layer built on top.
+
 ## Key Principles
 
 - **Note first, solution second** — never skip the note generation step
 - **Always fill all frontmatter** — title, date, language, status, tags
+- **Always update index.md** — add or revise the entry for the note
+- **Always append to log.md** — one entry per task, append-only
 - **Always end with the save reminder** — every single response, no exceptions
 - **Note title = descriptive slug** — e.g. `fix-null-pointer-login-handler` not `bug`
